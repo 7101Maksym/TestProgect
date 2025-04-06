@@ -7,23 +7,17 @@ public class Animation : MonoBehaviour
 {
     private PlayerMove _move;
     private InputGetter _input;
+    private PlayerDash _dash;
 
     private void Awake()
     {
         _move = GetComponent<PlayerMove>();
         _input = GetComponent<InputGetter>();
-
-        _move.StartDash += PlayDash;
     }
 
     private void Update()
     {
         RotatePlayer();
-    }
-
-    private void OnDestroy()
-    {
-        _move.StartDash -= PlayDash;
     }
 
     private void RotatePlayer()
@@ -34,10 +28,5 @@ public class Animation : MonoBehaviour
             LocalScale.x = Mathf.Sign(_input.Horisontal);
             _input.gameObject.transform.localScale = LocalScale;
         }
-    }
-
-    private void PlayDash()
-    {
-
     }
 }

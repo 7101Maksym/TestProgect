@@ -5,6 +5,7 @@ public class InputGetter : MonoBehaviour
 	private float _horisontal;
     private float _vertical;
     private float _dash;
+    private float _run;
 
     public float Horisontal
     {
@@ -42,10 +43,23 @@ public class InputGetter : MonoBehaviour
         }
     }
 
+    public float Run
+    {
+        get
+        {
+            return _run;
+        }
+        private set
+        {
+            _run = value;
+        }
+    }
+
     private void Update()
 	{
 		_horisontal = Input.GetAxisRaw("Horizontal");
         _vertical = Input.GetAxisRaw("Vertical");
         _dash = Input.GetAxisRaw("Dash");
+        _run = Input.GetAxisRaw("Run");
     }
 }
