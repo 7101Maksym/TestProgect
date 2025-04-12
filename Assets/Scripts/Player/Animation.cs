@@ -5,19 +5,21 @@ using UnityEngine;
 
 public class Animation : MonoBehaviour
 {
-    private PlayerMove _move;
     private InputGetter _input;
-    private PlayerDash _dash;
+    private PlayerStates _states;
+    private Animator _animator;
 
     private void Awake()
     {
-        _move = GetComponent<PlayerMove>();
+        _states = GetComponent<PlayerStates>();
+        _animator = GetComponentInChildren<Animator>();
         _input = GetComponent<InputGetter>();
     }
 
     private void Update()
     {
         RotatePlayer();
+        SetAnimation();
     }
 
     private void RotatePlayer()
@@ -28,5 +30,11 @@ public class Animation : MonoBehaviour
             LocalScale.x = Mathf.Sign(_input.Horisontal);
             _input.gameObject.transform.localScale = LocalScale;
         }
+    }
+
+    private void SetAnimation()
+    {
+        _animator.SetBool("IsRun", _states._is_moving);
+        _animator.SetBool("Shoot", _states._shoot);
     }
 }

@@ -20,6 +20,7 @@ public class PlayerMove : MonoBehaviour
 
 	private void NormalMove()
 	{
+        _states._is_moving = (_horizontal != 0);
 		_velocity = new Vector2(_horizontal * _normal_speed, _rigid_body.velocity.y);
         _rigid_body.velocity = _velocity;
 	}
