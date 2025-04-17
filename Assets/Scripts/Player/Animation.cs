@@ -1,28 +1,23 @@
 using UnityEngine;
+using UnityEngine.Windows;
 
 [RequireComponent(typeof(InputGetter))]
 [RequireComponent(typeof(PlayerMove))]
 
 public class Animation : MonoBehaviour
 {
-    private InputGetter _input;
-    private PlayerStates _states;
     private Animator _animator;
+    private InputGetter _input;
+    private PlayerController _controller;
 
     private void Awake()
     {
-        _states = GetComponent<PlayerStates>();
         _animator = GetComponentInChildren<Animator>();
+        _controller = GetComponent<PlayerController>();
         _input = GetComponent<InputGetter>();
     }
 
-    private void Update()
-    {
-        RotatePlayer();
-        SetAnimation();
-    }
-
-    private void RotatePlayer()
+    public void RotatePlayer()
     {
         if (_input.Horisontal != 0)
         {
@@ -32,9 +27,23 @@ public class Animation : MonoBehaviour
         }
     }
 
-    private void SetAnimation()
+    public void PlayWake()
     {
-        _animator.SetBool("IsRun", _states._is_moving);
-        _animator.SetBool("Shoot", _states._shoot);
+        _animator.SetBool("IsRun", false);
+    }
+
+    public void PlayRun()
+    {
+        _animator.SetBool("IsRun", true);
+    }
+
+    public void PlayShoot()
+    {
+        _animator.SetBool("Shoot", true);
+    }
+
+    public void StopShoot()
+    {
+        _animator.SetBool("Shoot", false);
     }
 }

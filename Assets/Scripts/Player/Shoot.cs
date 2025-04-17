@@ -4,24 +4,34 @@ using UnityEngine;
 
 public class Shoot : MonoBehaviour
 {
-    private InputGetter _input;
-    private PlayerStates _states;
+	private PlayerController _controller;
+    private Animation _animation;
 
-    private void Awake()
-    {
-        _input = GetComponent<InputGetter>();
-        _states = GetComponent<PlayerStates>();
+    [SerializeField] private float ShootLength = 1.1f;
+
+	private void Awake()
+	{
+		_controller = GetComponent<PlayerController>();
+        _animation = GetComponent<Animation>();
     }
 
-    private void Update()
-    {
-        if (_input.Shoot > 0)
-        {
-            _states._shoot = true;
-        }
-        else
-        {
-            _states._shoot = false;
-        }
-    }
+	public void TryShoot()
+	{
+		if (_controller.MoveState != States.Dash && _controller.MoveState != States.Shoot)
+		{
+			DoShoot();
+		}
+	}
+
+	private void DoShoot()
+	{
+		_controller.MoveState = States.Shoot;
+		Invoke(nameof(FinishShoot), ShootLength);
+	}
+
+	private void FinishShoot()
+	{
+		_controller.MoveState = States.Wake;
+        _animation.StopShoot();
+	}
 }

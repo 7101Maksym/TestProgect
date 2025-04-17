@@ -6,56 +6,36 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-	private InputGetter _input;
-	private Rigidbody2D _rigid_body;
-    private PlayerStates _states;
+    private Rigidbody2D _rigid_body;
 
-	private float _normal_speed = 2f;
-	private float _horizontal;
+    private float _normal_speed = 2f;
 
-	private Vector2 _velocity;
+    private Vector2 _velocity;
 
     [SerializeField] private float _walk_speed = 2f;
     [SerializeField] private float _run_speed = 3f;
 
-	private void NormalMove()
-	{
-        _states._is_moving = (_horizontal != 0);
-		_velocity = new Vector2(_horizontal * _normal_speed, _rigid_body.velocity.y);
-        _rigid_body.velocity = _velocity;
-	}
-
-	private void Move()
-	{
-		if (!_states._is_dashing)
-		{
-			NormalMove();
-		}
-    }
-
-	private void Awake()
-	{
-        _input = GetComponent<InputGetter>();
-		_rigid_body = GetComponent<Rigidbody2D>();
-        _states = GetComponent<PlayerStates>();
-    }
-
-    private void Update()
+    public void NormalMove(float _horizontal)
     {
-        if (_input.Run > 0)
-        {
-            _normal_speed = _run_speed;
-        }
-        else
-        {
-            _normal_speed = _walk_speed;
-        }
-
-        _horizontal = _input.Horisontal;
+        _velocity = new Vector2(_horizontal * _normal_speed, _rigid_body.velocity.y);
+        _rigid_body.velocity = _velocity;
     }
 
-    private void FixedUpdate()
-	{
-		Move();
+    private void Awake()
+    {
+        _rigid_body = GetComponent<Rigidbody2D>();
+    }
+
+    public void SetZeroSpeed()
+    {
+        _normal_speed = 0;
+    }
+    public void SetRunSpeed()
+    {
+        _normal_speed = _run_speed;
+    }
+    public void SetWalkSpeed()
+    { 
+        _normal_speed = _walk_speed;
     }
 }

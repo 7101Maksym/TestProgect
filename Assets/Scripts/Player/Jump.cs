@@ -3,78 +3,79 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Windows;
 
-public class Jump : MonoBehaviour
+public class PlayerJump : MonoBehaviour
 {
-	private PlayerStates _states;
-	private Rigidbody2D _rigid_body;
-	private InputGetter _input;
+    private Rigidbody2D _rigid_body;
+    private InputGetter _input;
 
     [SerializeField] private Vector2 _velocity;
 
     [SerializeField] private float _jump_speed = 5f;
     [SerializeField] private float _vertical;
-	private LayerMask _LayerMask = new LayerMask();
+    private LayerMask _LayerMask = new LayerMask();
 
-	private void DoubleJump()
-	{
-		if (_states.can_jump)
-		{
-			_states._in_jump = false;
-			_states._in_double_jump = false;
-			_states._can_double_jump = false;
+    public bool _in_jump = false, _in_double_jump = false, _can_double_jump = false, can_jump = true;
 
-			if (_vertical > 0 && _states._in_jump == false)
-			{
-				_velocity.y = _vertical * _jump_speed;
-                
-				_states._in_jump = true;
-			}
-		}
-        else
+    private void DoubleJump()
+    {
+        if (can_jump)
         {
-            if (_vertical > 0 && _states._in_jump == true && _states._in_double_jump == false && _states._can_double_jump)
+            _in_jump = false;
+            _in_double_jump = false;
+            _can_double_jump = false;
+
+            if (_vertical > 0 && _in_jump == false)
             {
                 _velocity.y = _vertical * _jump_speed;
-                _states._in_double_jump = true;
+
+                _in_jump = true;
+            }
+        }
+        else
+        {
+            if (_vertical > 0 && _in_jump == true && _in_double_jump == false && _can_double_jump)
+            {
+                _velocity.y = _vertical * _jump_speed;
+                _in_double_jump = true;
             }
         }
 
-		if (!(_vertical > 0))
-		{
-			_states._can_double_jump = true;
-		}
-	}
-
-	private void Awake()
-	{
-		_LayerMask.value = LayerMask.GetMask("Ground");
-
-		_input = GetComponent<InputGetter>();
-		_rigid_body = GetComponent<Rigidbody2D>();
-        _states = GetComponent<PlayerStates>();
+        if (!(_vertical > 0))
+        {
+            _can_double_jump = true;
+        }
     }
 
-	private void FixedUpdate()
-	{
-		if (Physics2D.Raycast(transform.position, -transform.up, 0.4f, _LayerMask))
-		{
-			_states.can_jump = true;
-		}
-		else
-		{
-			_states.can_jump = false;
-		}
-        
+    private void Awake()
+    {
+        _LayerMask.value = LayerMask.GetMask("Ground");
+
+        _input = GetComponent<InputGetter>();
+        _rigid_body = GetComponent<Rigidbody2D>();
+    }
+
+    private void FixedUpdate()
+    {
+        if (Physics2D.Raycast(transform.position, -transform.up, 0.4f, _LayerMask))
+        {
+            can_jump = true;
+        }
+        else
+        {
+            can_jump = false;
+        }
+
         _velocity.y = _rigid_body.velocity.y;
         _velocity.x = _rigid_body.velocity.x;
 
         DoubleJump();
 
         _rigid_body.velocity = _velocity;
-	}
+    }
 
     private void Update()
     {
         _vertical = _input.Vertical;
     }
 }
+
