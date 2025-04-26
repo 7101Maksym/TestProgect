@@ -6,6 +6,7 @@ using UnityEngine.Windows;
 public class PlayerJump : MonoBehaviour
 {
     private Rigidbody2D _rigid_body;
+    private PlayerController _controller;
     private InputGetter _input;
 
     [SerializeField] private Vector2 _velocity;
@@ -52,11 +53,12 @@ public class PlayerJump : MonoBehaviour
 
         _input = GetComponent<InputGetter>();
         _rigid_body = GetComponent<Rigidbody2D>();
+        _controller = GetComponent<PlayerController>();
     }
 
     private void FixedUpdate()
     {
-        if (Physics2D.Raycast(transform.position, -transform.up, 0.4f, _LayerMask))
+        if (Physics2D.Raycast(transform.position, -transform.up, 0.4f, _LayerMask) && _controller.MoveState != States.Dash)
         {
             can_jump = true;
         }

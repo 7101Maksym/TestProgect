@@ -2,78 +2,22 @@ using UnityEngine;
 
 public class InputGetter : MonoBehaviour
 {
-	private float _horisontal;
-    private float _vertical;
-    private float _dash;
-    private float _run;
-    private float _shoot;
+    public float Horisontal {  get; private set; }
 
-    public float Horisontal
-    {
-        get
-        {
-            return _horisontal;
-        }
-        private set
-        {
-            _horisontal = value;
-        }
-    }
+    public float Vertical {  get; private set; }
 
-    public float Vertical
-    {
-        get
-        {
-            return _vertical;
-        }
-        private set
-        {
-            _vertical = value;
-        }
-    }
+    public float Dash {  get; private set; }
 
-    public float Dash
-    {
-        get
-        {
-            return _dash;
-        }
-        private set
-        {
-            _dash = value;
-        }
-    }
+    public float Run {  get; private set; }
 
-    public float Run
-    {
-        get
-        {
-            return _run;
-        }
-        private set
-        {
-            _run = value;
-        }
-    }
-
-    public float Shoot
-    {
-        get
-        {
-            return _shoot;
-        }
-        private set
-        {
-            _shoot = value;
-        }
-    }
+    public float Shoot { get; private set; }
 
     private void Update()
 	{
-		_horisontal = Input.GetAxisRaw("Horizontal");
-        _vertical = Input.GetAxisRaw("Vertical");
-        _dash = Input.GetAxisRaw("Dash");
-        _run = Input.GetAxisRaw("Run");
-        _shoot = Input.GetAxisRaw("Shoot");
+		Horisontal = Input.GetAxisRaw("Horizontal");
+        Vertical = Input.GetAxisRaw("Vertical");
+        Dash = Input.GetAxisRaw("Dash");
+        Run = Input.GetAxisRaw("Run");
+        Shoot = Input.GetAxisRaw("Shoot");
     }
 }

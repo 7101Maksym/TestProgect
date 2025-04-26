@@ -12,8 +12,6 @@ public class PlayerController : MonoBehaviour
 	public States JumpState = States.OnGround;
 	public States MoveState = States.Wake;
 
-    [SerializeField] private Vector2 _velocity;
-
     private void Awake()
 	{
 		_input = GetComponent<InputGetter>();
